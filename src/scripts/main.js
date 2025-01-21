@@ -1,11 +1,18 @@
 'use strict';
 
 const populationSpans = document.querySelectorAll('.population');
-const populationData = [];
+const populationData = getPopulationData(populationSpans);
 const totalPopulationElem = document.querySelector('.total-population');
 const averagePopulationElem = document.querySelector('.average-population');
+const totalPopulation = getTotalPopulation(populationData);
+const averagePopulation = getAveragePopulation(populationData, totalPopulation);
+
+totalPopulationElem.innerText = addThousandsSeparator(totalPopulation);
+averagePopulationElem.innerText = addThousandsSeparator(averagePopulation);
 
 function getPopulationData(populationSpans) {
+  const populationData = [];
+
   for (const el of populationSpans) {
     const elText = el.innerText.replaceAll(',', '');
 
@@ -13,6 +20,8 @@ function getPopulationData(populationSpans) {
       populationData.push(+elText);
     };
   }
+
+  return populationData;
 }
 
 function getTotalPopulation(populationData) {
@@ -37,13 +46,3 @@ function addThousandsSeparator(number, separator = ',') {
 
   return parts.reverse().join('');
 }
-
-addThousandsSeparator(1234567, '.')
-
-getPopulationData(populationSpans);
-
-const totalPopulation = getTotalPopulation(populationData);
-const averagePopulation = getAveragePopulation(populationData, totalPopulation);
-
-totalPopulationElem.innerText = addThousandsSeparator(totalPopulation);
-averagePopulationElem.innerText = addThousandsSeparator(averagePopulation);
